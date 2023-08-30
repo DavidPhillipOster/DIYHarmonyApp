@@ -7,7 +7,7 @@
 
 #import "DIYPreferencesController.h"
 
-@interface DIYPreferencesController ()
+@interface DIYPreferencesController () <NSTextFieldDelegate, NSWindowDelegate>
 @property IBOutlet NSTextField *hubIP;
 @end
 
@@ -31,6 +31,16 @@ static BOOL IsValidIP4String(NSString *s) {
   NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
   NSString *hubIP = [ud objectForKey:@"hubIP"];
   self.hubIP.stringValue = hubIP;
+}
+
+- (void)windowWillClose:(NSNotification *)notification {
+  if (notification.object == self.window) {
+    NSString *hubIP = self.hubIP.stringValue;
+    if (IsValidIP4String(hubIP)) {
+      NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+      [ud setObject:hubIP forKey:@"hubIP"];
+    }
+  }
 }
 
 - (void)textDidChange:(NSNotification *)notification {

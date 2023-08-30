@@ -113,7 +113,7 @@ static DIYLog slogLevel;
     long remoteID = [innerDict[activeRemoteIdKey] longValue];
     if (remoteID) {
       NSUserDefaults *ud = NSUserDefaults.standardUserDefaults;
-      [ud setValue:@(remoteID) forKey:activeRemoteIdKey];
+      [ud setValue:@(remoteID) forKey:activeRemoteIdKey.description];
       [ud synchronize];
       self.remoteID = remoteID;
       __weak typeof(self) weakself = self;
@@ -474,7 +474,7 @@ static DIYLog slogLevel;
   if (nil == identifier) {
     identifier = self.idsToCompletions.allKeys.firstObject;
   }
-  [self deliverResponse:response messageID:identifier];  //kludge
+  [self deliverResponse:response messageID:identifier.description];  //kludge
   if (dataTask == self.postTask) {
     self.postTask = nil;
   }
